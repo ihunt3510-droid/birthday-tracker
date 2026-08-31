@@ -24,32 +24,14 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background
 @media(max-width:520px){.day{min-height:62px}.count{font-size:52px}.card button{padding:7px}}
 
 .settingRow{display:flex;justify-content:space-between;align-items:center;padding:16px 4px;border-bottom:1px solid #eee;font-weight:700}.settingRow input{width:20px;height:20px}.settingsButton{width:100%;padding:13px;margin:7px 0;border:0;border-radius:13px;background:#f5f1fa;font-weight:800;cursor:pointer}.settingsButton.danger{color:#a33}.statGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{background:#f5f1fa;border-radius:16px;padding:18px;text-align:center}.stat b{display:block;font-size:30px}.stat span{color:#777;font-size:12px}.celebrate{background:#eadcff;border-radius:20px;padding:24px;text-align:center;font-size:18px}.dark{background:#17131d;color:#eee}.dark .calendarPanel,.dark .card,.dark .sheet{background:#241e2b;color:#eee;border-color:#3b3344}.dark .search,.dark .sheet input,.dark .sheet select{background:#241e2b;color:#eee;border-color:#4a4054}.dark .tabs{background:#2a2431}.dark .tab{color:#bbb}.dark .tab.active{background:#342b3c;color:#d7baff}.dark .day{border-color:#403747}.dark .small,.dark .date,.dark .sub{color:#b8adbf}
-.homeTrackedBox{background:#fff;border:1px solid #eee;border-radius:20px;padding:14px;margin:14px 0}.trackCard{display:flex;justify-content:space-between;align-items:center;background:#f8f4fc;border-radius:16px;padding:15px;margin:9px 0;cursor:pointer}.trackCount{font-weight:900;color:#6c3fa0;font-size:18px;text-align:right}.dark .trackCard{background:#302739}
-.navActions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.navBtn{border:0;background:#f5f1fa;color:#6c3fa0;border-radius:11px;padding:9px 12px;font-weight:800;cursor:pointer}
-.navBtn.primary{background:#6c3fa0;color:#fff}
-.calendarTop{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.calendarSelect{border:1px solid #eee;border-radius:11px;padding:9px;background:#fff;font-weight:700}
-.accountBar{background:#f5f1fa;border-radius:16px;padding:12px;margin:12px 0}
-.accountBar select{border:0;background:transparent;font-weight:800;font-size:15px}
-.accountsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-.accountCard{background:#fff;border:1px solid #eee;border-radius:16px;padding:15px;cursor:pointer}
-.accountCard.active{outline:2px solid #6c3fa0}
-.accountName{font-weight:850;font-size:17px}.accountMeta{font-size:12px;color:#777;margin-top:4px}
-.dark .navBtn,.dark .accountBar,.dark .calendarSelect{background:#302739;color:#d7baff}
-.dark .accountCard{background:#241e2b;border-color:#3b3344}
-</style>
+.homeTrackedBox{background:#fff;border:1px solid #eee;border-radius:20px;padding:14px;margin:14px 0}.trackCard{display:flex;justify-content:space-between;align-items:center;background:#f8f4fc;border-radius:16px;padding:15px;margin:9px 0;cursor:pointer}.trackCount{font-weight:900;color:#6c3fa0;font-size:18px;text-align:right}.dark .trackCard{background:#302739}</style>
 </head>
 <body>
 <div class="wrap">
   <div class="head"><div class="cake">🎂</div><div><div class="title">Birthday Tracker</div><div class="sub">Never miss a birthday.</div></div></div>
-  <div id="accountBar" class="accountBar">
-    <div class="row"><div><strong>👤 Accounts</strong><div class="small">Tap an account to switch, or add a new one</div></div><button class="navBtn primary" onclick="addAccount()">＋ New</button></div>
-    <div id="accountChips" class="accountsGrid" style="margin-top:10px"></div>
-  </div>
   <div class="tabs">
     <button id="homeTab" class="tab active" onclick="showView('home')">🏠 Home</button>
-    <button id="calendarTab" class="tab" onclick="showView('calendar')">📅 Calendar</button><button id="dashboardTab" class="tab" onclick="showView('dashboard')">📊 Dashboard</button><button id="accountsTab" class="tab" onclick="showView('accounts')">👤 Accounts</button><button id="settingsTab" class="tab" onclick="showView('settings')">⚙️ Settings</button>
+    <button id="calendarTab" class="tab" onclick="showView('calendar')">📅 Calendar</button><button id="dashboardTab" class="tab" onclick="showView('dashboard')">📊 Dashboard</button><button id="settingsTab" class="tab" onclick="showView('settings')">⚙️ Settings</button>
   </div>
 
   <section id="homeView">
@@ -60,16 +42,15 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background
   </section>
 
   <section id="calendarView" style="display:none">
-  <div class="calendarPanel">
-    <div class="calendarTop"><div><div class="small">CALENDAR</div><strong id="monthTitle"></strong></div>
-      <div class="navActions"><button class="navBtn" onclick="changeMonth(-1)">‹ Prev</button><button class="navBtn primary" onclick="goToday()">Today</button><button class="navBtn" onclick="changeMonth(1)">Next ›</button></div>
+    <div class="calendarPanel">
+      <div class="calendarHeader"><button onclick="changeMonth(-1)">‹</button><strong id="monthTitle"></strong><button onclick="changeMonth(1)">›</button></div>
+      <div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div id="calendar" class="calendar"></div>
+      <p class="calendarHint">Tap a birthday on the calendar to open its profile.</p>
     </div>
-    <div class="navActions"><select id="calendarMonthSelect" class="calendarSelect" onchange="jumpCalendarMonth()"></select><select id="calendarYearSelect" class="calendarSelect" onchange="jumpCalendarYear()"></select></div>
-    <div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
-    <div id="calendar" class="calendar"></div>
-    <p class="calendarHint">Tap a birthday to open its profile. Swipe left/right on mobile to change months.</p>
-  </div>
-</section>
+  </section>
+
+
 
 <section id="dashboardView" style="display:none">
   <div class="calendarPanel">
@@ -82,8 +63,6 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background
     <div id="celebration"></div>
   </div>
 </section>
-
-<section id="accountsView" style="display:none"><div class="calendarPanel"><div class="row"><h2>👤 Accounts</h2><button class="navBtn primary" onclick="addAccount()">＋ New Account</button></div><p class="small">Switch between separate birthday lists.</p><div id="accountsGrid" class="accountsGrid"></div></div></section>
 
 <section id="settingsView" style="display:none">
   <div class="calendarPanel">
@@ -115,40 +94,12 @@ body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background
 <div id="profileModal" class="modal"><div id="profileContent" class="sheet"></div></div>
 
 <script>
-function safeParse(key,fallback){
-  try{
-    const raw=localStorage.getItem(key);
-    if(raw===null)return fallback;
-    const parsed=JSON.parse(raw);
-    return parsed==null?fallback:parsed;
-  }catch(e){
-    console.warn("Could not read saved data for "+key+", leaving existing storage untouched.",e);
-    return fallback;
-  }
-}
-let accounts=safeParse("birthdayAccounts",[]);
-if(!Array.isArray(accounts))accounts=[];
-if(!accounts.length){
-  const legacyBirthdays=safeParse("birthdayTracker",[]);
-  accounts=[{id:crypto.randomUUID(),name:"Isaac",birthdays:Array.isArray(legacyBirthdays)?legacyBirthdays:[]}];
-  localStorage.setItem("birthdayAccounts",JSON.stringify(accounts));
-}
-let activeAccountId=localStorage.getItem("birthdayActiveAccount")||accounts[0].id;
-if(!accounts.some(a=>a.id===activeAccountId))activeAccountId=accounts[0].id;
-let birthdays=(accounts.find(a=>a.id===activeAccountId)||accounts[0]).birthdays||[];
+let birthdays=JSON.parse(localStorage.getItem("birthdayTracker")||"[]");
 let calendarMonth=new Date();
 let editingId=null;
 
 const $=id=>document.getElementById(id);
-function persist(){
-  const a=accounts.find(x=>x.id===activeAccountId); if(a)a.birthdays=birthdays;
-  localStorage.setItem("birthdayAccounts",JSON.stringify(accounts));
-  localStorage.setItem("birthdayActiveAccount",activeAccountId);
-}
-function renderAccountSelect(){const c=$("accountChips");if(c)c.innerHTML=accounts.map(a=>`<div class="accountCard ${a.id===activeAccountId?"active":""}" onclick="switchAccount('${a.id}')"><div class="accountName">👤 ${escapeHtml(a.name)}</div><div class="accountMeta">${(a.birthdays||[]).length} birthday${(a.birthdays||[]).length===1?"":"s"} · ${a.id===activeAccountId?"Active":"Tap to switch"}</div></div>`).join("")}
-function switchAccount(id){persist();const a=accounts.find(x=>x.id===id);if(!a)return;activeAccountId=id;birthdays=a.birthdays||[];persist();renderAccountSelect();renderAccounts();render();showView("home")}
-function addAccount(){const name=prompt("Account name:");if(!name||!name.trim())return;const a={id:crypto.randomUUID(),name:name.trim(),birthdays:[]};persist();accounts.push(a);activeAccountId=a.id;birthdays=[];persist();renderAccountSelect();renderAccounts();render()}
-function renderAccounts(){renderAccountSelect();$("accountsGrid").innerHTML=accounts.map(a=>`<div class="accountCard ${a.id===activeAccountId?"active":""}" onclick="switchAccount('${a.id}')"><div class="accountName">👤 ${escapeHtml(a.name)}</div><div class="accountMeta">${(a.birthdays||[]).length} birthday${(a.birthdays||[]).length===1?"":"s"} · ${a.id===activeAccountId?"Active":"Click to switch"}</div></div>`).join("")}
+function persist(){localStorage.setItem("birthdayTracker",JSON.stringify(birthdays))}
 function nextDate(s){
   const b=new Date(s+"T00:00:00"),n=new Date();
   b.setFullYear(n.getFullYear());
@@ -159,42 +110,6 @@ function daysUntil(s){
   const n=new Date();n.setHours(0,0,0,0);
   return Math.round((nextDate(s)-n)/86400000);
 }
-function nextDateTime(dateStr,timeStr){
-  const [hh,mm]=(timeStr||"12:00").split(":").map(Number);
-  const b=new Date(dateStr+"T00:00:00");
-  const now=new Date();
-  let target=new Date(now.getFullYear(),b.getMonth(),b.getDate(),hh,mm,0,0);
-  if(target.getTime()<=now.getTime())target=new Date(now.getFullYear()+1,b.getMonth(),b.getDate(),hh,mm,0,0);
-  return target;
-}
-function countdownParts(targetMs){
-  const diff=targetMs-Date.now();
-  if(diff<=0)return{days:0,hours:0,minutes:0,seconds:0,over:true};
-  return{
-    days:Math.floor(diff/86400000),
-    hours:Math.floor((diff%86400000)/3600000),
-    minutes:Math.floor((diff%3600000)/60000),
-    seconds:Math.floor((diff%60000)/1000),
-    over:false
-  };
-}
-function fmtFull(targetMs){
-  const p=countdownParts(targetMs);
-  return p.over?"🎉 Today!":`${p.days}d ${p.hours}h ${p.minutes}m ${p.seconds}s`;
-}
-function tickCountdowns(){
-  let rerenderNeeded=false;
-  document.querySelectorAll('.cd-days,.cd-hms,.cd-full').forEach(el=>{
-    const target=Number(el.dataset.target);
-    const p=countdownParts(target);
-    if(p.over){rerenderNeeded=true;return}
-    if(el.classList.contains('cd-days'))el.textContent=p.days;
-    else if(el.classList.contains('cd-hms'))el.textContent=`${p.hours}h ${p.minutes}m ${p.seconds}s`;
-    else el.textContent=`${p.days}d ${p.hours}h ${p.minutes}m ${p.seconds}s`;
-  });
-  if(rerenderNeeded){render()}
-}
-setInterval(tickCountdowns,1000);
 function age(s){
   const b=new Date(s+"T00:00:00"),n=new Date();
   let a=n.getFullYear()-b.getFullYear();
@@ -203,7 +118,7 @@ function age(s){
 }
 function pretty(s){return new Date(s+"T00:00:00").toLocaleDateString(undefined,{month:"long",day:"numeric",year:"numeric"})}
 function showView(view){
-  ["home","calendar","dashboard","tracked","accounts","settings"].forEach(v=>{
+  ["home","calendar","dashboard","tracked","settings"].forEach(v=>{
     const el=$(v+"View"); if(el) el.style.display=v===view?"block":"none";
     const tab=$(v+"Tab"); if(tab) tab.classList.toggle("active",v===view);
   });
@@ -211,14 +126,22 @@ function showView(view){
   if(view==="calendar")renderCalendar();
   if(view==="dashboard")renderDashboard();
   if(view==="tracked")renderTracked();
-  if(view==="accounts")renderAccounts();
   if(view==="settings")loadSettings();
 }
-function changeMonth(delta){calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+delta,1);renderCalendar()}
-function renderCalendarNav(){const names=["January","February","March","April","May","June","July","August","September","October","November","December"];$("calendarMonthSelect").innerHTML=names.map((x,i)=>`<option value="${i}" ${i===calendarMonth.getMonth()?"selected":""}>${x}</option>`).join("");const y=calendarMonth.getFullYear();let ys="";for(let i=y-5;i<=y+5;i++)ys+=`<option value="${i}" ${i===y?"selected":""}>${i}</option>`;$("calendarYearSelect").innerHTML=ys}
-function jumpCalendarMonth(){calendarMonth=new Date(calendarMonth.getFullYear(),Number($("calendarMonthSelect").value),1);renderCalendar()}
-function jumpCalendarYear(){calendarMonth=new Date(Number($("calendarYearSelect").value),calendarMonth.getMonth(),1);renderCalendar()}
-function renderCalendar(){const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();$("monthTitle").textContent=new Date(y,m,1).toLocaleDateString(undefined,{month:"long",year:"numeric"});renderCalendarNav();const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();let out="";for(let i=0;i<first;i++)out+="<div></div>";for(let d=1;d<=last;d++){const matches=birthdays.filter(x=>{const b=new Date(x.date+"T00:00:00");return b.getMonth()===m&&b.getDate()===d});const now=new Date(),today=now.getFullYear()===y&&now.getMonth()===m&&now.getDate()===d;out+=`<div class="day ${today?"today":""} ${matches.length?"hasBirthday":""}"><b>${d}</b><div class="dots">${matches.map(x=>`<button class="calPerson" onclick="showProfile('${x.id}')">🎂 ${escapeHtml(x.name)}</button>`).join("")}</div></div>`}$("calendar").innerHTML=out}
+function changeMonth(delta){calendarMonth.setMonth(calendarMonth.getMonth()+delta);renderCalendar()}
+function renderCalendar(){
+  const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();
+  $("monthTitle").textContent=new Date(y,m,1).toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  const first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate();
+  let html="";
+  for(let i=0;i<first;i++)html+="<div></div>";
+  for(let d=1;d<=last;d++){
+    const matches=birthdays.filter(x=>{const b=new Date(x.date+"T00:00:00");return b.getMonth()===m&&b.getDate()===d});
+    const now=new Date(),today=now.getFullYear()===y&&now.getMonth()===m&&now.getDate()===d;
+    html+=`<div class="day ${today?"today":""} ${matches.length?"hasBirthday":""}"><b>${d}</b><div class="dots">${matches.map(x=>`<button class="calPerson" onclick="showProfile('${x.id}')">🎂 ${escapeHtml(x.name)}</button>`).join("")}</div></div>`;
+  }
+  $("calendar").innerHTML=html;
+}
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
 function renderDashboard(){
@@ -252,7 +175,7 @@ function clearAll(){if(confirm("Delete every saved birthday from this browser? T
 function renderHomeTracked(){
  const q=$("search").value.toLowerCase();
  const arr=birthdays.filter(x=>x.name.toLowerCase().includes(q)).sort((a,b)=>daysUntil(a.date)-daysUntil(b.date));
- $("homeTracked").innerHTML=arr.length?arr.map(x=>{const t=nextDateTime(x.date,x.time).getTime();return `<div class="trackCard" onclick="showProfile('${x.id}')"><div><strong>🎂 ${escapeHtml(x.name)}</strong><div class="small">${pretty(x.date)} · ${x.time||"12:00"} · age ${age(x.date)}</div></div><div class="trackCount"><span class="cd-full" data-target="${t}">${fmtFull(t)}</span></div></div>`}).join(""):'<div class="empty">No birthdays yet.</div>';
+ $("homeTracked").innerHTML=arr.length?arr.map(x=>`<div class="trackCard" onclick="showProfile('${x.id}')"><div><strong>🎂 ${escapeHtml(x.name)}</strong><div class="small">${pretty(x.date)} · ${x.time||"12:00"} · age ${age(x.date)}</div></div><div class="trackCount">${daysUntil(x.date)===0?"TODAY!":daysUntil(x.date)+" days"}</div></div>`).join(""):'<div class="empty">No birthdays yet.</div>';
 }
 function render(){
   const q=$("search").value.toLowerCase();
@@ -260,13 +183,11 @@ function render(){
   $("total").textContent=birthdays.length;
   if(arr.length){
     const x=arr[0];
-    const t=nextDateTime(x.date,x.time).getTime();
-    const p=countdownParts(t);
-    $("hero").innerHTML=`<div class="label">NEXT BIRTHDAY</div><div class="name">${escapeHtml(x.name)}</div><div class="count cd-days" data-target="${t}">${p.days}</div><b>days to go</b><div class="date">${pretty(x.date)}</div><div class="time">🎉 ${x.time||"12:00"}</div><div class="small cd-hms" data-target="${t}">${p.hours}h ${p.minutes}m ${p.seconds}s</div>`;
+    $("hero").innerHTML=`<div class="label">NEXT BIRTHDAY</div><div class="name">${escapeHtml(x.name)}</div><div class="count">${daysUntil(x.date)}</div><b>days to go</b><div class="date">${pretty(x.date)}</div><div class="time">🎉 ${x.time||"12:00"}</div>`;
   }else $("hero").innerHTML=`<div style="font-size:52px">🎂</div><div class="name">Let's add a birthday!</div><div class="date">Your next countdown will appear here.</div>`;
-  $("list").innerHTML=arr.length?arr.map(x=>{const t=nextDateTime(x.date,x.time).getTime();return `<div class="card"><div class="avatar">🎈</div><div class="info"><div class="person">${escapeHtml(x.name)}</div><div class="small">Age ${age(x.date)} · ${pretty(x.date)} · <span class="cd-full" data-target="${t}">${fmtFull(t)}</span></div></div><button onclick="showProfile('${x.id}')">View</button><button onclick="editBirthday('${x.id}')">✏️</button><button onclick="toggleFav('${x.id}')">${x.favorite?"★":"☆"}</button><button onclick="removeBirthday('${x.id}')">🗑️</button></div>`}).join(""):`<div class="empty">${q?"No birthdays found.":"No birthdays yet."}</div>`;
+  $("list").innerHTML=arr.length?arr.map(x=>`<div class="card"><div class="avatar">🎈</div><div class="info"><div class="person">${escapeHtml(x.name)}</div><div class="small">Age ${age(x.date)} · ${pretty(x.date)} · ${daysUntil(x.date)} days</div></div><button onclick="showProfile('${x.id}')">View</button><button onclick="editBirthday('${x.id}')">✏️</button><button onclick="toggleFav('${x.id}')">${x.favorite?"★":"☆"}</button><button onclick="removeBirthday('${x.id}')">🗑️</button></div>`).join(""):`<div class="empty">${q?"No birthdays found.":"No birthdays yet."}</div>`;
   renderCalendar();
-  renderHomeTracked();
+  renderTracked();
 }
 function openModal(){
   editingId=null;$("formTitle").textContent="Add Birthday 🎂";$("saveBtn").textContent="Save Birthday";
@@ -309,7 +230,7 @@ async function saveReminder(id){
   $("reminderStatus").textContent="🔔 Reminder saved. Keep the web app open for browser reminders.";
 }
 $("search").oninput=render;
-renderAccountSelect();renderAccounts();render();
+render();
 
 let touchStartX=0;
 document.addEventListener("touchstart",e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});
